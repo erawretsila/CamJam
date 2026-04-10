@@ -1,0 +1,36 @@
+body{
+    background-image: url("CamJam.png");
+    background-repeat: no-repeat;
+    background-size: 800px 1000px;
+    background-position-x: center;
+}
+
+h1{
+    text-align: center;
+}
+
+input[type=submit] {
+    padding:5px 15px; 
+    background:lightblue; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+    margin-left: 400px;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th, td{
+    width: 150px;
+    border: 1px;
+}
+.border{
+    width:150px;
+    border: 1px solid #eca0a0;
+    padding: 10px;
+    text-align:enter;
+}

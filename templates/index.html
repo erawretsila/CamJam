@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title>CAMJAM TICKETS</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/CamJam.css') }}"/>
+        <script src="{{url_for('static',filename='script/CamJam.js')}}"></script>
+    </head>
+    <body>
+        <h1>CamJam 2027</h1>
+        <form method="post">
+            <br><br>
+            <table>
+                {% for field in fields[:-1] %}
+                <td>
+                    {{field}}    
+                    <br>
+                    <input type="text" name={{field}} id="{{field}}">
+                </td>
+                {% endfor %}
+            </table>
+            <input type="submit" value="Search">
+        </form>
+        <table>
+            {%for field in fields %}
+                <th>{{field}}</th>
+            {% endfor %}
+            {% for fields in results %}
+                <tr>    
+                {% for result in fields[1:-1] %}
+                        <td class="border">
+                            {{result}}    
+                        </td>
+                {% endfor %}
+                    <td>
+                    <input type="checkbox" id="{{fields[0]}}" onclick="toggleStatus(this)" {% if fields[-1] == '1' %} checked="True" {% endif %}/>                        
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
