@@ -1,11 +1,5 @@
-<html>
-    <head>
-        <title>CAMJAM TICKETS</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/CamJam.css') }}"/>
-        <script src="{{url_for('static',filename='script/CamJam.js')}}"></script>
-    </head>
-    <body>
-        <h1>CamJam 2027</h1>
+{% extends 'base.html' %}{% block content %}
+        <button id="statistics" value="Reports"><a href='/stats'>Statistics</a></button>
         <form method="post">
             <br><br>
             <table>
@@ -25,16 +19,24 @@
             {% endfor %}
             {% for fields in results %}
                 <tr>    
-                {% for result in fields[1:-1] %}
+                {% for result in fields[1:-2] %}
                         <td class="border">
                             {{result}}    
                         </td>
                 {% endfor %}
+                <!--Fields: {{fields['Checked_In']}} -->
                     <td>
-                    <input type="checkbox" id="{{fields[0]}}" onclick="toggleStatus(this)" {% if fields[-1] == '1' %} checked="True" {% endif %}/>                        
+                    {% if fields['Checked_In'] != "1": %}
+                        <input type="checkbox" id="{{fields['id']}}" onclick="toggleStatus(this)" />
+                      
+                    {% elif fields['Released'] != '1' and (fields[5].lower()=='child' or fields[5].lower()=='adult' or fields[5] =="Dropin")%}
+                        YES
+                        <button id="{{fields['id']}}" onclick="release(this)">Release</button>
+                    {% else %}
+                        Yes
+                    {% endif %}                        
                     </td>
                 </tr>
             {% endfor %}
         </table>
-    </body>
-</html>
+{% endblock %}

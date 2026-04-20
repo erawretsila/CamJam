@@ -1,0 +1,12 @@
+<html>
+    <head>
+        <title>CAMJAM TICKETS</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/CamJam.css') }}"/>
+        <script src="{{url_for('static',filename='script/CamJam.js')}}"></script>
+    </head>
+    <body>
+        <h1>CamJam 2027</h1>
+        {% block content %}
+        {% endblock%}
+    </body>
+</html>

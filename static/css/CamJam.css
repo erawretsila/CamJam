@@ -22,15 +22,25 @@ input[type=submit] {
 table {
     margin-left: auto;
     margin-right: auto;
+    font-weight:bold;
 }
 
-th, td{
+th, td {
     width: 150px;
     border: 1px;
 }
-.border{
+.border {
     width:150px;
     border: 1px solid #eca0a0;
     padding: 10px;
-    text-align:enter;
+    text-align:center;
+    font-weight:bold;
+    color: green;
+}
+
+#statistics {
+    background-color: lightblue;
+    margin-top: 0px;
+    margin-left: 400px;
+    border-radius: 5px; 
 }

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}{% block content %}
+<button id="home" value="Home"><a href='/'>Home</a></button>
+
+<h2>Attendance: </h2>
+<table>
+<td>Total</td><td>{{results['total'][0]}}</td>
+<tr>
+<td>Jam Makers</td><td>{{results['jammaker'][0]}}</td><tr>
+<td>Adults</td><td>{{results['adult'][0]}}</td></tr>
+<td>Children</td><td>{{results['children'][0]}}</td></tr>
+<td>Dropins</td><td>{{results['dropins'][0]}}</td></tr>
+</table>
+{% endblock %}

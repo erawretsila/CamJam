@@ -1,7 +1,7 @@
-"Ticket_ID","FirstName","Surname","Qty","Type","eMail","Checked_In"
-14021000,"Alister","Ware",1,"JamMaker","alister.ware@ntlworld.com",1
-14021001,"Brian","Cortiel",1,"Organiser","brian@camjam.com",1
-14021002,"Paul","Fretwell",1,"JamMaker","paul@footlegrobotics.com",1
+"Ticket_ID","First_Name","Surname","qty","type","email","Checked_In"
+14021000,"Alister","Ware",1,"JamMaker","alister.ware@ntlworld.com",
+14021001,"Brian","Coftiel",1,"Organiser","brian@camjam.com",
+14021002,"Paul","Fretwell",1,"JamMaker","paul@footlegrobotics.com",
 14021003,"Sango","Skywalker",1,"adult","jskywalker@rebel.hq",
 14021004,"Alf","Moofflight",1,"adult",,
 14021005,"Bowser","Savaige",1,"adult",,
@@ -19,8 +19,3 @@
 14021017,"Ashley","Hoddr",1,"adult",,
 14021018,"Fred","Flinstome",1,"adult",,
 14021019,"Barney","Rubble",1,"adult",,
-14021020,"Spare",,1,"adult",,
-14021021,"Spare",,1,"adult",,
-14021022,"Spare",,1,"adult",,
-14021023,"Spare",,1,"adult",,
-14021024,"Spare",,1,"adult",,
