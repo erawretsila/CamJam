@@ -105,6 +105,7 @@ def format_values(data):
 def setup_db():
     with open('CamJam.csv','r') as camjam:
         data = csv.DictReader(camjam)
+        data.fieldnames = [x.replace(" ","_") for x in data.fieldnames]
         db = SQL.connect('CamJam.db')
         cursor=db.cursor()
         sql = ['CREATE TABLE IF NOT EXISTS tickets (id INTEGER PRIMARY KEY']
@@ -115,11 +116,13 @@ def setup_db():
         cursor.execute(sql)
         cursor.execute(f"PRAGMA table_info(tickets);")
         columns = [row[1] for row in cursor.fetchall()]  # Extract column names (row[1] is the name)
+        if "Checked_In" not in columns:
+            # Add the column
+            cursor.execute(f"ALTER TABLE tickets ADD COLUMN Checked_In text Default 0;")
  
         if "Released" not in columns:
             # Add the column
             cursor.execute(f"ALTER TABLE tickets ADD COLUMN Released text Default 0;")
-            db.commit()
         values=format_values(data)
         for value in values:
             sql = f'''SELECT id FROM tickets WHERE Ticket_ID = {value[0]}'''
@@ -128,6 +131,9 @@ def setup_db():
                 sql = f'INSERT INTO tickets({",".join(data.fieldnames)}) VALUES ({",".join('?'*len(data.fieldnames))})'
                 cursor.execute(sql,value)
         db.commit()
+        data.fieldnames.append("Checked_In")
+        data.fieldnames.append("Released")
+
         return data.fieldnames
 
 if __name__ == "__main__":

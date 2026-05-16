@@ -17,11 +17,11 @@ function crap(){
 }
 
 function release(record) {
-//  alert("Release");
-  
+
   id = record.getAttribute('id')
   xhttp.open("GET", "release?id="+id, true);
   xhttp.send();
   const element = document.getElementById(id);
   element.remove();
+  
 }

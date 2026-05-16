@@ -3,7 +3,7 @@
         <form method="post">
             <br><br>
             <table>
-                {% for field in fields[:-1] %}
+                {% for field in fields[:-2] %}
                 <td>
                     {{field}}    
                     <br>
@@ -14,24 +14,27 @@
             <input type="submit" value="Search">
         </form>
         <table>
-            {%for field in fields %}
+            {%for field in fields[:-1] %}
                 <th>{{field}}</th>
             {% endfor %}
             {% for fields in results %}
-                <tr>    
+                <tr> 
+                <!--{{fieds}}-->       
                 {% for result in fields[1:-2] %}
                         <td class="border">
                             {{result}}    
                         </td>
                 {% endfor %}
-                <!--Fields: {{fields['Checked_In']}} -->
+                <!--Fields: Checked In: {{fields['Checked_In']}} Released:{{fields['Released']}} -->
                     <td>
                     {% if fields['Checked_In'] != "1": %}
                         <input type="checkbox" id="{{fields['id']}}" onclick="toggleStatus(this)" />
                       
-                    {% elif fields['Released'] != '1' and (fields[5].lower()=='child' or fields[5].lower()=='adult' or fields[5] =="Dropin")%}
-                        YES
+                    {% elif fields['Released'] != '1' and (fields['Type'].lower()=='child' or fields['Type'].lower()=='adult' or fields['Type'] =="Dropin")%}
+        
                         <button id="{{fields['id']}}" onclick="release(this)">Release</button>
+                    {% elif fields['Released'] == '1'%}
+                        Released    
                     {% else %}
                         Yes
                     {% endif %}                        
