@@ -20,20 +20,49 @@
 #  MA 02110-1301, USA.
 #  
 #  
-
+import os
 import sqlite3 as SQL
 import csv
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, flash, redirect, url_for
+from werkzeug.utils import secure_filename
+
 import argparse
 
+UPLOAD_FOLDER = 'Uploads'
+ALLOWED_EXTENSIONS = {'csv','CSV'}
+
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/test')
 def test():
     return render_template('home.html')
 
-@app.route('/',methods=['GET','POST'])
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+@app.route('/upload.html', methods=['GET', 'Post'])
+def upload():
+    global filenames
+    if request.method != 'POST':
+        return render_template('upload.html')
+    if 'file' not in request.files:
+        return render_template('upload.html')
+    file = request.files['file']
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        filenames = setup_db()       
+        return redirect('/')
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
+    if fieldnames is None:
+        return redirect('upload.html')
+    
     if request.method == 'POST':
         data = request.form
         search = [f"{x} like '%{data[x]}%'" for x in data if data[x] != '']
@@ -45,11 +74,15 @@ def index():
         else:
             sql = "select * from tickets"
         results = cursor.execute(sql).fetchall()
-        print(results)
+        print(f'Fields:\t{fieldnames}\tResults\t{results}')
+        return render_template('index.html',fields=fieldnames,results=results)
         
     else:
         results = []
-    return render_template('index.html',fields=fieldnames,results=results)
+        fields = []
+        print(f'Fields:\t{fieldnames}\tResults\t{results}')
+        return render_template('index.html',fields=fieldnames,results=results)
+
 
 @app.route('/toggle')
 def toggle():
@@ -92,9 +125,11 @@ def statistics():
     return render_template('statistics.html',results=results)
 
 def cam_jam():
-    db = setup_db()   
-    return db
-
+    try:
+        return setup_db()
+    except FileNotFoundError:
+        return None
+    
 def format_values(data):
     values = list()
     for row in data:
@@ -103,10 +138,11 @@ def format_values(data):
     return values
 
 def setup_db():
-    with open('CamJam.csv','r') as camjam:
+    db = SQL.connect('CamJam.db')
+    with open('Uploads/CamJam.csv','r') as camjam:
         data = csv.DictReader(camjam)
         data.fieldnames = [x.replace(" ","_") for x in data.fieldnames]
-        db = SQL.connect('CamJam.db')
+#        db = SQL.connect('CamJam.db')
         cursor=db.cursor()
         sql = ['CREATE TABLE IF NOT EXISTS tickets (id INTEGER PRIMARY KEY']
         for key in  data.fieldnames:
