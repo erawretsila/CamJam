@@ -1,2 +1,7 @@
 .git
 *.db
+*.ods
+*.csv
+venv
+venv/*
+
